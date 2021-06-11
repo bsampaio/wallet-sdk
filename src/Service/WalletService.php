@@ -55,18 +55,21 @@ class WalletService
             'nickname' => $nickname,
             'email'    => $email
         ];
+        $rules = [
+            'name' => 'required|string|max:255',
+            'nickname' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
+            'email' => 'required|string|email|max:255',
+        ];
+
         if($password) {
             $params['password'] = $password;
             $params['password_confirmation'] = $password;
             $params['automatic_password'] = false;
+
+            $rules['password'] = 'required|string|min:6|confirmed';
         }
 
-        $validator = Validator::make($params, [
-            'name' => 'required|string|max:255',
-            'nickname' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+        $validator = Validator::make($params, $rules);
 
         $validator->validate();
 
