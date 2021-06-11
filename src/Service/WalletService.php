@@ -21,9 +21,9 @@ class WalletService
      * @param $walletKey
      * @throws HeimdallKeyIsMissing
      */
-    public function __construct()
+    public function __construct($heimdall = null)
     {
-        $this->client = Client::getInstance();
+        $this->client = Client::getInstance($heimdall);
     }
 
     public function checkNickname($nickname)

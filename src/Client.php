@@ -26,7 +26,7 @@ class Client {
      * WalletService constructor.
      * @throws HeimdallKeyIsMissing
      */
-    private function __construct()
+    private function __construct($heimdall = null)
     {
         $dotEnvBase = __DIR__ . "/../";
         if(file_exists($dotEnvBase . '.env')) {
@@ -34,11 +34,15 @@ class Client {
             $dotenv->load();
         }
 
-
-        $heimdallKey = env('HEIMDALL_KEY', null);
-        if(!$heimdallKey) {
-            throw new HeimdallKeyIsMissing();
+        if($heimdall) {
+            $heimdallKey = $heimdall;
+        } else {
+            $heimdallKey = env('HEIMDALL_KEY', null);
+            if(!$heimdallKey) {
+                throw new HeimdallKeyIsMissing();
+            }
         }
+
 
         $this->debug = env('DEBUG', false);
         $this->setUserAgent();
@@ -62,10 +66,10 @@ class Client {
      * @return Client
      * @throws HeimdallKeyIsMissing
      */
-    public static function getInstance(): Client
+    public static function getInstance($heimdall = null): Client
     {
         if(!static::$instance) {
-            static::$instance = new Client();
+            static::$instance = new Client($heimdall);
         }
 
         return static::$instance;
