@@ -1,5 +1,5 @@
 {
-    "name": "lifepetwebteam/wallet-sdk",
+    "name": "lifepetwebteam/lifepet-wallet-sdk",
     "description": "Software develpment kit to communicate with wallet service",
     "type": "library",
     "require": {
