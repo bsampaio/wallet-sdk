@@ -1,0 +1,43 @@
+<?php
+
+
+use Lifepet\Wallet\SDK\Service\WalletService;
+use PHPUnit\Framework\TestCase;
+
+class WalletServiceTest extends TestCase
+{
+    const TEST_WALLET_USER = 'staging';
+    private $service;
+    private $key;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->service = new WalletService();
+        $this->key = $this->service->getKey(self::TEST_WALLET_USER);
+    }
+
+    public function testGetKey()
+    {
+        $key = $this->service->getKey(self::TEST_WALLET_USER);
+        $this->assertNotNull($key);
+    }
+
+    public function testGetInfo()
+    {
+        $info = $this->service->info($this->key);
+        $this->assertNotNull($info);
+    }
+
+    public function testGetBalance()
+    {
+        $balance = $this->service->balance($this->key);
+        $this->assertNotNull($balance);
+    }
+
+    public function testGetStatement()
+    {
+        $statement = $this->service->statement($this->key);
+        $this->assertNotNull($statement);
+    }
+}

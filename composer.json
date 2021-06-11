@@ -1,0 +1,36 @@
+{
+    "name": "lifepetwebteam/wallet-sdk",
+    "description": "Software develpment kit to communicate with wallet service",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "7.4.x-dev",
+        "psy/psysh": "^0.10.4",
+        "illuminate/filesystem": "^8.40",
+        "illuminate/translation": "^8.40",
+        "illuminate/validation": "^8.40",
+        "vlucas/phpdotenv": "5.3.x-dev"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Breno S. Grillo",
+            "email": "brenogrillo@gmail.com",
+            "homepage": "https://github.com/bsampaio",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "9.5.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lifepet\\Wallet\\SDK\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lifepet\\Wallet\\Tests\\": "tests"
+        }
+    }
+}
