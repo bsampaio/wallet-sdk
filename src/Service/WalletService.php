@@ -75,6 +75,11 @@ class WalletService
         ]);
     }
 
+    /**
+     * @param $key
+     * @return mixed|null
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function info($key)
     {
         return $this->client->get('/wallet/info', [
