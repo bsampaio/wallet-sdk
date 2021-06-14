@@ -4,6 +4,7 @@
 namespace Lifepet\Wallet\SDK\Service;
 
 
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Lifepet\Wallet\SDK\Client;
@@ -81,7 +82,7 @@ class WalletService
     /**
      * @param $key
      * @return mixed|null
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function info($key)
     {
@@ -124,13 +125,49 @@ class WalletService
      * @param $key
      * @param $to
      * @param int $amount
+     * @param string|null $reference Indicates if the transfer pays a charge.
      * @return mixed|null
      * @throws ValidationException
      */
-    public function transfer($key, $to, int $amount)
+    public function transfer($key, $to, int $amount, string $reference = null)
     {
         $params = [
-            'to' => $to,
+            'to'     => $to,
+            'amount' => $amount
+        ];
+        if($reference) {
+            $params['reference'] = $reference;
+        }
+
+        $validator = Validator::make($params, [
+            'to' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
+            'amount' => 'required|numeric|integer',
+            'reference' => 'sometimes|string'
+        ]);
+
+        $validator->validate();
+
+        return $this->client->post('/wallet', [
+            'form_params' => $params,
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
+    }
+
+    /**
+     * Creates a base64 PNG image with the QRCode of the charge.
+     *
+     * @param string $key
+     * @param string $from User to charge from
+     * @param int $amount Amount to charge in cents
+     * @return mixed|null
+     * @throws ValidationException
+     */
+    public function makeCharge(string $key, string $from, int $amount)
+    {
+        $params = [
+            'from' => $from,
             'amount'    => $amount
         ];
 
@@ -143,6 +180,21 @@ class WalletService
 
         return $this->client->post('/wallet', [
             'form_params' => $params,
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
+    }
+
+    /**
+     * @param string $key
+     * @param string $reference Reference of charge. Code in the following format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+     * @return mixed|null
+     * @throws GuzzleException
+     */
+    public function chargeInfo(string $key, string $reference)
+    {
+        return $this->client->get("/charge/{$reference}", [
             'headers' => [
                 'Wallet-Key' => $key
             ]
