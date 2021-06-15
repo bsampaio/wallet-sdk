@@ -9,6 +9,7 @@ use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
 class Client {
 
     const BASE_URI = 'http://wallet.lifepet.com.br/api';
+    //const BASE_URI = 'http://localhost:8000/api';
 
     /**
      * @var Client
@@ -18,7 +19,7 @@ class Client {
     /**
      * @var mixed
      */
-    private $debug = false;
+    private $debug = true;
 
     private $userAgent;
 

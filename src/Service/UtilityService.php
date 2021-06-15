@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 use Lifepet\Wallet\SDK\Client;
 use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
 
-class UtilityService
+class UtilityService extends BasicService
 {
     /**
      * @var Client
@@ -23,6 +23,7 @@ class UtilityService
      */
     public function __construct($heimdall = null)
     {
+        parent::__construct();
         $this->client = Client::getInstance($heimdall);
     }
 
@@ -35,14 +36,13 @@ class UtilityService
             'url' => $url,
         ];
 
-        $validator = Validator::make($params, [
-            'url' => 'required|url',
+        $validator = $this->validator->make($params, [
+            'url' => 'required|url'
         ]);
-
         $validator->validate();
 
         return $this->client->post('/utility/qrcode', [
-            'form_params' => $params
+            'json' => $params
         ]);
     }
 }

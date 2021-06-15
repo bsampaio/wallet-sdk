@@ -5,12 +5,11 @@ namespace Lifepet\Wallet\SDK\Service;
 
 
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Lifepet\Wallet\SDK\Client;
 use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
 
-class WalletService
+class WalletService extends BasicService
 {
     /**
      * @var Client
@@ -24,6 +23,7 @@ class WalletService
      */
     public function __construct($heimdall = null)
     {
+        parent::__construct();
         $this->client = Client::getInstance($heimdall);
     }
 
@@ -70,12 +70,12 @@ class WalletService
             $rules['password'] = 'required|string|min:6|confirmed';
         }
 
-        $validator = Validator::make($params, $rules);
+        $validator = $this->validator->make($params, $rules);
 
         $validator->validate();
 
         return $this->client->post('/wallet', [
-            'form_params' => $params
+            'json' => $params
         ]);
     }
 
@@ -139,7 +139,7 @@ class WalletService
             $params['reference'] = $reference;
         }
 
-        $validator = Validator::make($params, [
+        $validator = $this->validator->make($params, [
             'to' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
             'amount' => 'required|numeric|integer',
             'reference' => 'sometimes|string'
@@ -148,7 +148,7 @@ class WalletService
         $validator->validate();
 
         return $this->client->post('/wallet', [
-            'form_params' => $params,
+            'json' => $params,
             'headers' => [
                 'Wallet-Key' => $key
             ]
@@ -171,7 +171,7 @@ class WalletService
             'amount'    => $amount
         ];
 
-        $validator = Validator::make($params, [
+        $validator = $this->validator->make($params, [
             'to' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
             'amount' => 'required|numeric|integer',
         ]);
@@ -179,7 +179,7 @@ class WalletService
         $validator->validate();
 
         return $this->client->post('/wallet', [
-            'form_params' => $params,
+            'json' => $params,
             'headers' => [
                 'Wallet-Key' => $key
             ]
