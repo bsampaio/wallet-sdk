@@ -4,6 +4,7 @@
 namespace Lifepet\Wallet\SDK\Service;
 
 
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Validation\ValidationException;
 use Lifepet\Wallet\SDK\Client;
@@ -11,14 +12,26 @@ use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
 
 class WalletService extends BasicService
 {
+    const ORIGIN__CUSTOMER = 'CUSTOMER';
+    const ORIGIN__PARTNER = 'PARTNER';
+
+    const TYPE__PERSONAL = 1;
+    const TYPE__BUSINESS = 2;
+
     /**
      * @var Client
      */
     private $client;
 
     /**
+     * @var string $origin
+     */
+    private $origin;
+
+    /**
      * WalletService constructor.
-     * @param $walletKey
+     * @param null $heimdall
+     * @param string $origin
      * @throws HeimdallKeyIsMissing
      */
     public function __construct($heimdall = null)
@@ -54,7 +67,7 @@ class WalletService extends BasicService
         $params = [
             'name'     => $name,
             'nickname' => $nickname,
-            'email'    => $email
+            'email'    => $email,
         ];
         $rules = [
             'name' => 'required|string|max:255',
@@ -68,6 +81,10 @@ class WalletService extends BasicService
             $params['automatic_password'] = false;
 
             $rules['password'] = 'required|string|min:6|confirmed';
+        }
+
+        if($this->origin === self::ORIGIN__PARTNER) {
+            $params['type'] = self::TYPE__BUSINESS;
         }
 
         $validator = $this->validator->make($params, $rules);
@@ -167,8 +184,8 @@ class WalletService extends BasicService
     public function makeCharge(string $key, string $from, int $amount)
     {
         $params = [
-            'from' => $from,
-            'amount'    => $amount
+            'from'    => $from,
+            'amount'  => $amount
         ];
 
         $validator = $this->validator->make($params, [
@@ -178,7 +195,7 @@ class WalletService extends BasicService
 
         $validator->validate();
 
-        return $this->client->post('/wallet', [
+        return $this->client->post('/charge', [
             'json' => $params,
             'headers' => [
                 'Wallet-Key' => $key
@@ -199,5 +216,17 @@ class WalletService extends BasicService
                 'Wallet-Key' => $key
             ]
         ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function setOrigin($origin)
+    {
+        if(in_array($origin, [self::ORIGIN__CUSTOMER, self::ORIGIN__PARTNER])) {
+            $this->origin = $origin;
+        } else {
+            throw new Exception("This origin is not allowed. Use one of the given origin.");
+        }
     }
 }
