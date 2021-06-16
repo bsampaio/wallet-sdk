@@ -31,7 +31,6 @@ class WalletService extends BasicService
     /**
      * WalletService constructor.
      * @param null $heimdall
-     * @param string $origin
      * @throws HeimdallKeyIsMissing
      */
     public function __construct($heimdall = null)
@@ -143,23 +142,34 @@ class WalletService extends BasicService
      * @param $to
      * @param int $amount
      * @param string|null $reference Indicates if the transfer pays a charge.
+     * @param int|null $tax Indicates if the transfer has a custom tax
+     * @param int|null $cashback Indicates if the transfer has a custom cashback
      * @return mixed|null
      * @throws ValidationException
      */
-    public function transfer($key, $to, int $amount, string $reference = null)
+    public function transfer($key, $to, int $amount, string $reference = null, int $tax = null, int $cashback = null)
     {
         $params = [
             'to'     => $to,
             'amount' => $amount
         ];
+
         if($reference) {
             $params['reference'] = $reference;
+        }
+        if($tax) {
+            $params['tax'] = $tax;
+        }
+        if($cashback) {
+            $params['cashback'] = $cashback;
         }
 
         $validator = $this->validator->make($params, [
             'to' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
             'amount' => 'required|numeric|integer',
-            'reference' => 'sometimes|string'
+            'reference' => 'sometimes|string',
+            'tax' => 'sometimes|numeric|integer',
+            'cashback' => 'sometimes|numeric|integer',
         ]);
 
         $validator->validate();
@@ -228,5 +238,58 @@ class WalletService extends BasicService
         } else {
             throw new Exception("This origin is not allowed. Use one of the given origin.");
         }
+    }
+
+
+    /**
+     * @param string $key
+     * @param int $tax Integer number of the tax percentage
+     * @return mixed|null
+     * @throws ValidationException
+     */
+    public function setDefaultTax(string $key, int $tax)
+    {
+        $params = [
+            'tax'    => $tax,
+        ];
+
+        $validator = $this->validator->make($params, [
+            'tax' => 'required|numeric|integer|min:1',
+        ]);
+
+        $validator->validate();
+
+        return $this->client->post('/tax', [
+            'json' => $params,
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
+    }
+
+    /**
+     * @param string $key
+     * @param int $cashback Integer number of the cashback percentage
+     * @return mixed|null
+     * @throws ValidationException
+     */
+    public function setDefaultCashback(string $key, int $cashback)
+    {
+        $params = [
+            'cashback' => $cashback,
+        ];
+
+        $validator = $this->validator->make($params, [
+            'cashback' => 'required|numeric|integer|min:1',
+        ]);
+
+        $validator->validate();
+
+        return $this->client->post('/cashback', [
+            'json' => $params,
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
     }
 }
