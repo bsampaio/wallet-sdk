@@ -204,14 +204,14 @@ class WalletService extends BasicService
         }
 
         $validator = $this->validator->make($params, [
-            'to' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
+            'from' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
             'amount' => 'required|numeric|integer',
             'base_url' => 'sometimes|url'
         ]);
 
         $validator->validate();
 
-        return $this->client->post('/charge', [
+        return $this->client->post('/wallet/charge', [
             'json' => $params,
             'headers' => [
                 'Wallet-Key' => $key
@@ -265,7 +265,7 @@ class WalletService extends BasicService
 
         $validator->validate();
 
-        return $this->client->post('/tax', [
+        return $this->client->post('/wallet/tax', [
             'json' => $params,
             'headers' => [
                 'Wallet-Key' => $key
@@ -291,7 +291,7 @@ class WalletService extends BasicService
 
         $validator->validate();
 
-        return $this->client->post('/cashback', [
+        return $this->client->post('/wallet/cashback', [
             'json' => $params,
             'headers' => [
                 'Wallet-Key' => $key
