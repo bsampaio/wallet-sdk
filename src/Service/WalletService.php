@@ -188,19 +188,25 @@ class WalletService extends BasicService
      * @param string $key
      * @param string $from User to charge from
      * @param int $amount Amount to charge in cents
+     * @param string|null $base_url If informed, the given URL is appended with the reference info and generates the QRCode
      * @return mixed|null
      * @throws ValidationException
      */
-    public function makeCharge(string $key, string $from, int $amount)
+    public function makeCharge(string $key, string $from, int $amount, string $base_url = null)
     {
         $params = [
             'from'    => $from,
             'amount'  => $amount
         ];
 
+        if($base_url) {
+            $params['base_url'] = $base_url;
+        }
+
         $validator = $this->validator->make($params, [
             'to' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
             'amount' => 'required|numeric|integer',
+            'base_url' => 'sometimes|url'
         ]);
 
         $validator->validate();
