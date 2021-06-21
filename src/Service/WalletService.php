@@ -150,7 +150,7 @@ class WalletService extends BasicService
     public function transfer($key, $to, int $amount, string $reference = null, int $tax = null, int $cashback = null)
     {
         $params = [
-            'to'     => $to,
+            'transfer_to'     => $to,
             'amount' => $amount
         ];
 
@@ -165,7 +165,7 @@ class WalletService extends BasicService
         }
 
         $validator = $this->validator->make($params, [
-            'to' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
+            'transfer_to' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
             'amount' => 'required|numeric|integer',
             'reference' => 'sometimes|string',
             'tax' => 'sometimes|numeric|integer',
