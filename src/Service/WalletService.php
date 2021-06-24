@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Validation\ValidationException;
 use Lifepet\Wallet\SDK\Client;
 use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
+use Lifepet\Wallet\SDK\Domains\Billing;
 
 class WalletService extends BasicService
 {
@@ -292,6 +293,264 @@ class WalletService extends BasicService
         $validator->validate();
 
         return $this->client->post('/wallet/cashback', [
+            'json' => $params,
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
+    }
+
+    public function addCard(string $key, string $cardNumber, string $holderName, $securityCode, $expirationMonth, $expirationYear)
+    {
+        $params = [
+            'card_number' => $cardNumber,
+            'holder_name' => $holderName,
+            'security_code' => $securityCode,
+            'expiration_month' => $expirationMonth,
+            'expiration_year' => $expirationYear
+        ];
+
+        $validator = $this->validator->make($params, [
+            'card_number' => 'required',
+            'holder_name' => 'required',
+            'security_code' => 'required',
+            'expiration_year' => 'required',
+        ]);
+
+        $validator->validate();
+
+        return $this->client->post('/wallet/cards/delete', [
+            'json' => $params,
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
+    }
+
+    public function getCards(string $key)
+    {
+        return $this->client->get('/wallet/cards', [
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
+    }
+
+    public function removeCard(string $key, int $cardId)
+    {
+        $params = [
+            'card_id' => $cardId
+        ];
+
+        $validator = $this->validator->make($params, [
+            'card_id' => 'required|numeric|integer',
+        ]);
+
+        $validator->validate();
+
+        return $this->client->post('/wallet/cards/delete', [
+            'json' => $params,
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
+    }
+
+    /**
+     * @param string $key
+     * @param int $cardId
+     * @return mixed|null
+     */
+    public function enableCard(string $key, int $cardId)
+    {
+        $params = [
+            'card_id' => $cardId
+        ];
+
+        $validator = $this->validator->make($params, [
+            'card_id' => 'required|numeric|integer',
+        ]);
+
+        $validator->validate();
+
+        return $this->client->post('/wallet/cards/activate', [
+            'json' => $params,
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
+    }
+
+    /**
+     * @param string $key
+     * @param int $cardId
+     * @return mixed|null
+     */
+    public function disableCard(string $key, int $cardId)
+    {
+        $params = [
+            'card_id' => $cardId
+        ];
+
+        $validator = $this->validator->make($params, [
+            'card_id' => 'required|numeric|integer',
+        ]);
+
+        $validator->validate();
+
+        return $this->client->post('/wallet/cards/disable', [
+            'json' => $params,
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
+    }
+
+    /**
+     * @param string $key
+     * @param int $cardId
+     * @return mixed|null
+     */
+    public function setMainCard(string $key, int $cardId)
+    {
+        $params = [
+            'card_id' => $cardId
+        ];
+
+        $validator = $this->validator->make($params, [
+            'card_id' => 'required|numeric|integer',
+        ]);
+
+        $validator->validate();
+
+        return $this->client->post('/wallet/cards/main', [
+            'json' => $params,
+            'headers' => [
+                'Wallet-Key' => $key
+            ]
+        ]);
+    }
+
+    /**
+     * @param string $key
+     * @param $to
+     * @param int $cardId
+     * @param bool $useBalance
+     * @param int $amountToTransfer
+     * @param int $amountFromCreditCard
+     * @param int $installments
+     * @param int $amountFromBalance
+     * @param string $description
+     * @param Billing $billing
+     * @param string|null $reference
+     * @param int|null $tax
+     * @param int|null $cashback
+     * @return mixed|null
+     * @throws ValidationException
+     */
+    public function creditCardPayment(string $key, $to, int $cardId, bool $useBalance, int $amountToTransfer, int $amountFromCreditCard, int $installments, int $amountFromBalance,
+                                      string $description, Billing $billing, string $reference = null, int $tax = null, int $cashback = null)
+    {
+        $params =  [
+            //Receiver
+            'transfer_to'     => $to,
+
+            //Credit Card
+            'use_credit_card' => 1,
+            'card_id'         => $cardId,
+
+            //Amount composition
+            'amount_to_bill_credit_card' => $amountFromCreditCard,
+            'amount_to_bill_balance'     => $amountFromBalance,
+            'amount_to_transfer'         => $amountToTransfer,
+            'installments'               => $installments,
+
+            //Charge
+            'description'        => $description,
+            //'due_date'           => now(),
+
+            //Address
+            'street'       => $billing->getAddress()->getStreet(),
+            'number'       => $billing->getAddress()->getNumber(),
+            'neighborhood' => $billing->getAddress()->getNeighborhood(),
+            'city'         => $billing->getAddress()->getCity(),
+            'state'        => $billing->getAddress()->getState(),
+            'post_code'    => $billing->getAddress()->getPostCode(),
+
+            //Billing
+            'name'       => $billing->getName(),
+            'document'   => $billing->getDocument(),
+            'email'      => $billing->getEmail(),
+            'phone'      => $billing->getPhone(),
+            'birth_date' => $billing->getBirthDate(),
+
+            //Options
+            'use_balance' => $useBalance,
+
+            'cashback'    => 'sometimes|numeric|min:0'
+        ];
+
+        if($reference) {
+            $params['reference'] =  $reference;
+        }
+        if($tax) {
+            $params['tax'] =  $tax;
+        }
+        if($cashback) {
+            $params['cashback'] =  $cashback;
+        }
+
+        $complement = $billing->getAddress()->getComplement();
+        if($complement) {
+            $params['complement'] = $complement;
+        }
+
+        $rules = [
+            //Receiver
+            'transfer_to'     => 'required|string',
+
+            //Credit Card
+            'use_credit_card' => 'required|boolean',
+            'card_id'         => 'required|numeric',
+
+            //Amount composition
+            'amount_to_bill_credit_card' => 'required|numeric|integer|gte:1',
+            'amount_to_bill_balance'     => 'sometimes|numeric|integer|gte:1',
+            'amount_to_transfer'         => 'required|numeric|gte:1',
+            'installments'               => 'required|numeric|max:24',
+
+            //Charge
+            'description'        => 'required|string',
+            //'due_date'           => 'sometimes|date',
+
+            //Address
+            'street'       => 'required|string',
+            'number'       => 'required|string',
+            'neighborhood' => 'required|string',
+            'city'         => 'required|string',
+            'state'        => 'required|string',
+            'post_code'    => 'required|string',
+            'complement'   => 'sometimes|string',
+
+            //Billing
+            'name'       => 'required|string',
+            'document'   => 'required|string',
+            'email'      => 'required|string',
+            'phone'      => 'required|string',
+            'birth_date' => 'required|date',
+
+            //Options
+            'use_balance' => 'required|boolean',
+            'reference'   => 'sometimes|string',
+            'tax'         => 'sometimes|numeric|min:0',
+            'cashback'    => 'sometimes|numeric|min:0'
+        ];
+
+        $validator = $this->validator->make($params, $rules);
+
+        $validator->validate();
+
+        return $this->client->post('/wallet/payment/credit-card', [
             'json' => $params,
             'headers' => [
                 'Wallet-Key' => $key
