@@ -319,7 +319,7 @@ class WalletService extends BasicService
 
         $validator->validate();
 
-        return $this->client->post('/wallet/cards/delete', [
+        return $this->client->post('/wallet/cards/add', [
             'json' => $params,
             'headers' => [
                 'Wallet-Key' => $key
