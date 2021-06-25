@@ -8,7 +8,7 @@ use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
 
 class Client {
 
-    const BASE_URI = 'http://wallet.lifepet.com.br/api';
+    const BASE_URI = 'https://wallet.lifepet.com.br/api';
     //const BASE_URI = 'http://localhost:8000/api';
 
     /**
