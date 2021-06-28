@@ -3,6 +3,8 @@
     "description": "Software develpment kit to communicate with wallet service",
     "type": "library",
     "require": {
+        "ext-curl": "*",
+        "ext-json": "*",
         "guzzlehttp/guzzle": "7.4.x-dev",
         "psy/psysh": "^0.10.4",
         "illuminate/filesystem": "^8.40",
