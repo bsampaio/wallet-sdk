@@ -193,21 +193,32 @@ class WalletService extends BasicService
      * @return mixed|null
      * @throws ValidationException
      */
-    public function makeCharge(string $key, string $from, int $amount, string $base_url = null)
+    public function makeCharge(string $key, string $from, int $amount, string $base_url = null, $overwritable = true, int $tax = null, int $cashback = null)
     {
         $params = [
             'from'    => $from,
-            'amount'  => $amount
+            'amount'  => $amount,
+            'overwritable' => $overwritable,
         ];
 
         if($base_url) {
             $params['base_url'] = $base_url;
         }
+        if($tax) {
+            $params['tax'] = $tax;
+        }
+        if($cashback) {
+            $params['cashback'] = $cashback;
+        }
+
 
         $validator = $this->validator->make($params, [
             'from' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
             'amount' => 'required|numeric|integer',
-            'base_url' => 'sometimes|url'
+            'base_url' => 'sometimes|url',
+            'overwritable' => 'sometimes|boolean',
+            'cashback' => 'sometimes|integer',
+            'tax' => 'sometimes|integer',
         ]);
 
         $validator->validate();
