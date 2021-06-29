@@ -328,7 +328,7 @@ class WalletService extends BasicService
         ]);
     }
 
-    public function addCard(string $key, string $cardNumber, string $holderName, $securityCode, $expirationMonth, $expirationYear)
+    public function addCard(string $key, string $cardNumber, string $holderName, $securityCode, $expirationMonth, $expirationYear, string $cardNickname = null)
     {
         $params = [
             'card_number' => $cardNumber,
@@ -337,12 +337,16 @@ class WalletService extends BasicService
             'expiration_month' => $expirationMonth,
             'expiration_year' => $expirationYear
         ];
+        if($cardNickname) {
+            $params['card_nickname'] = $cardNickname;
+        }
 
         $validator = $this->validator->make($params, [
             'card_number' => 'required',
             'holder_name' => 'required',
             'security_code' => 'required',
             'expiration_year' => 'required',
+            'card_nickname' => 'sometimes|string',
         ]);
 
         $validator->validate();
