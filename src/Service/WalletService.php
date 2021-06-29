@@ -34,7 +34,7 @@ class WalletService extends BasicService
      * @param null $heimdall
      * @throws HeimdallKeyIsMissing
      */
-    public function __construct($heimdall = null)
+    public function __construct($heimdall = null, $origin = 'CUSTOMER')
     {
         parent::__construct();
         $this->client = Client::getInstance($heimdall);
@@ -74,10 +74,11 @@ class WalletService extends BasicService
      * @param $email
      * @param $nickname
      * @param null $password
+     * @param int type
      * @return mixed|null
      * @throws ValidationException
      */
-    public function makeUserEnablingWallet($name, $email, $nickname, $password = null)
+    public function makeUserEnablingWallet($name, $email, $nickname, $password = null, int $type = 1)
     {
         $params = [
             'name'     => $name,
@@ -98,7 +99,7 @@ class WalletService extends BasicService
             $rules['password'] = 'required|string|min:6|confirmed';
         }
 
-        if($this->origin === self::ORIGIN__PARTNER) {
+        if($this->origin === self::ORIGIN__PARTNER || $type === self::TYPE__BUSINESS) {
             $params['type'] = self::TYPE__BUSINESS;
         }
 
