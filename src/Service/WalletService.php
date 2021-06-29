@@ -209,7 +209,6 @@ class WalletService extends BasicService
     public function makeCharge(string $key, int $amount, string $base_url = null, string $from = null, $overwritable = true, int $tax = null, int $cashback = null)
     {
         $params = [
-            'from'    => $from,
             'amount'  => $amount,
             'overwritable' => $overwritable,
         ];
@@ -222,6 +221,9 @@ class WalletService extends BasicService
         }
         if($cashback) {
             $params['cashback'] = $cashback;
+        }
+        if($from) {
+            $params['from'] = $from;
         }
 
 
