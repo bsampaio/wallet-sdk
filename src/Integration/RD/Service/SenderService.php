@@ -31,7 +31,7 @@ class SenderService
         $this->client = new Client();
         $this->data = [
             'identifier' => $identifier,
-            'email' => $email
+            'email' => $email,
         ];
     }
 

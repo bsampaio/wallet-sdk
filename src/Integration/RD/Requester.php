@@ -38,6 +38,11 @@ class Requester
         $this->url = $url;
     }
 
+    /**
+     * @param Payload $payload
+     * @return bool
+     * @throws \Exception
+     */
     public function request(Payload $payload) {
         $this->payload = array_merge($this->payload, $payload->toArray());
 
