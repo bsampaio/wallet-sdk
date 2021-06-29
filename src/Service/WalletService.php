@@ -64,7 +64,9 @@ class WalletService extends BasicService
             $params['term'] = $term;
         }
 
-        return $this->client->get('/users', $params);
+        return $this->client->get('/users', [
+            'json' => $params
+        ]);
     }
 
     /**
