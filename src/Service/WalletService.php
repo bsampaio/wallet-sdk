@@ -54,6 +54,19 @@ class WalletService extends BasicService
         return $this->client->get('/users/available', []);
     }
 
+    public function userSearch(int $page = 1, string $term = null)
+    {
+        $params = [
+            'page' => $page
+        ];
+
+        if($term) {
+            $params['term'] = $term;
+        }
+
+        return $this->cliente->get('/users', $params);
+    }
+
     /**
      * @param $name
      * @param $email
