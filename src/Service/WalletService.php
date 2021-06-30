@@ -38,6 +38,7 @@ class WalletService extends BasicService
     {
         parent::__construct();
         $this->client = Client::getInstance($heimdall);
+        $this->origin = $origin;
     }
 
     public function checkNickname($nickname)
