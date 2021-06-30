@@ -527,8 +527,6 @@ class WalletService extends BasicService
 
             //Options
             'use_balance' => $useBalance,
-
-            'cashback'    => 'sometimes|numeric|min:0'
         ];
 
         if($reference) {
