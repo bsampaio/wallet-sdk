@@ -554,7 +554,7 @@ class WalletService extends BasicService
 
             //Amount composition
             'amount_to_bill_credit_card' => 'required|numeric|integer|gte:1',
-            'amount_to_bill_balance'     => 'sometimes|numeric|integer|gte:1',
+            'amount_to_bill_balance'     => 'sometimes|numeric|integer|gte:0',
             'amount_to_transfer'         => 'required|numeric|gte:1',
             'installments'               => 'required|numeric|max:24',
 
