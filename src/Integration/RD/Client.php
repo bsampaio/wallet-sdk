@@ -25,6 +25,7 @@ class Client
     /**
      * @param array $fields
      * @throws \Exception
+     * @return bool
      */
     public function request(array $fields) {
         try {
