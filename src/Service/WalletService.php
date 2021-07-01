@@ -265,7 +265,10 @@ class WalletService extends BasicService
      */
     public function chargeInfo(string $key, string $reference)
     {
-        return $this->client->get("/charge/{$reference}", [
+        return $this->client->get("/charge", [
+            'query' => [
+                'reference' => $reference,
+            ],
             'headers' => [
                 'Wallet-Key' => $key
             ]
