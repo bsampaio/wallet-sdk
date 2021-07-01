@@ -24,6 +24,7 @@ class Requester
      */
     public function __construct($url){
         $this->setUrl($url);
+        $this->payload = [];
     }
 
     /**
