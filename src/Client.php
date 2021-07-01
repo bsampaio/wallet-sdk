@@ -48,9 +48,11 @@ class Client {
         $this->debug = env('DEBUG', false);
         $this->setUserAgent();
 
+        $base_uri = env('WALLET_SDK_BASE_URI', static::BASE_URI);
+
         $this->client = new \GuzzleHttp\Client([
             'verify'          => false,
-            'base_uri'        => static::BASE_URI,
+            'base_uri'        => $base_uri,
             'allow_redirects' => false,
             'debug'           => $this->debug,
             'json'            => true,
