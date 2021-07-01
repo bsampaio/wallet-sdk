@@ -23,11 +23,12 @@ class Client
     }
 
     /**
-     * @param array $payload
+     * @param array $fields
      * @throws \Exception
      */
-    public function request(array $payload) {
+    public function request(array $fields) {
         try {
+            $payload = new Payload($fields);
             $this->requester->request($payload);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

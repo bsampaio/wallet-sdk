@@ -16,9 +16,9 @@ class Payload
     public $email;
     public $fields;
 
-    public function __construct(string $email, array $fields)
+    public function __construct(array $fields)
     {
-        $this->email = $email;
+        $this->email = $fields['email'];
         $this->fields = $fields;
     }
 
