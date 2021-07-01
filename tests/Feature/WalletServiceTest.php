@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class WalletServiceTest extends TestCase
 {
-    const TEST_WALLET_USER = 'staging';
+    const TEST_WALLET_USER = 'customer';
     const HEIMDALL_TEST_KEY = '3bb353bda7b61873c9ebd084c10f2e00718522c4';
     private $service;
     private $key;

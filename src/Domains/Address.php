@@ -35,7 +35,7 @@ class Address extends Model
         $this->number = $number;
         $this->neighborhood = $neighborhood;
         $this->city = $city;
-        $this->state = $state;
+        $this->state = strtoupper($state);
         $this->postCode = $postCode;
         $this->complement = $complement;
     }
