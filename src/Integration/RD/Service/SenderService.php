@@ -47,6 +47,6 @@ class SenderService
      */
     public function send()
     {
-        $this->client->request($this->data);
+        return $this->client->request($this->data);
     }
 }

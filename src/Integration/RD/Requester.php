@@ -11,7 +11,6 @@ namespace Lifepet\Wallet\SDK\Integration\RD;
 
 class Requester
 {
-
     private $payload;
     private $url;
     private $response;
@@ -58,7 +57,7 @@ class Requester
 
 
         if($this->info['http_code'] != 200) {
-            throw new \Exception($this->response()->message);
+            throw new \Exception($this->response);
         }
 
         return true;

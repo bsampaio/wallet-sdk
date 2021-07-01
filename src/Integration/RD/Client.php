@@ -29,7 +29,7 @@ class Client
     public function request(array $fields) {
         try {
             $payload = new Payload($fields);
-            $this->requester->request($payload);
+            return $this->requester->request($payload);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
