@@ -70,6 +70,17 @@ class WalletService extends BasicService
         ]);
     }
 
+    public function userByNickname(string $nickname)
+    {
+        $params = [
+            'nickname' => $nickname
+        ];
+
+        return $this->client->get('/users/nickname', [
+            'json' => $params
+        ]);
+    }
+
     /**
      * @param $name
      * @param $email
