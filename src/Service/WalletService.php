@@ -77,7 +77,7 @@ class WalletService extends BasicService
         ];
 
         return $this->client->get('/users/nickname', [
-            'json' => $params
+            'query' => $params
         ]);
     }
 
