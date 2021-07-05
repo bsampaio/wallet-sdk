@@ -176,7 +176,7 @@ class WalletService extends BasicService
      * @return mixed|null
      * @throws ValidationException
      */
-    public function transfer($key, $to, int $amount, string $reference = null, int $tax = null, int $cashback = null)
+    public function transfer($key, $to, int $amount, string $reference = null, int $tax = null, int $cashback = null, $description = null)
     {
         $params = [
             'transfer_to'     => $to,
@@ -192,13 +192,17 @@ class WalletService extends BasicService
         if($cashback) {
             $params['cashback'] = $cashback;
         }
+        if($description) {
+            $params['description'] = $description;
+        }
 
         $validator = $this->validator->make($params, [
             'transfer_to' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
-            'amount' => 'required|numeric|integer',
-            'reference' => 'sometimes|string',
-            'tax' => 'sometimes|numeric|integer',
-            'cashback' => 'sometimes|numeric|integer',
+            'amount'      => 'required|numeric|integer',
+            'reference'   => 'sometimes|string',
+            'tax'         => 'sometimes|numeric|integer',
+            'cashback'    => 'sometimes|numeric|integer',
+            'description' => 'sometimes|string'
         ]);
 
         $validator->validate();
