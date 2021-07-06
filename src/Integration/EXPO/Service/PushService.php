@@ -6,14 +6,14 @@ namespace Lifepet\Wallet\SDK\Integration\EXPO\Service;
 
 use Lifepet\Wallet\SDK\Integration\EXPO\Client;
 
-class SenderService
+class PushService
 {
 
     private $client;
     private $data;
 
     /**
-     * SenderService constructor.
+     * PushService constructor.
      * @param string $identifier
      * @param string $email
      * @throws \Exception
@@ -29,7 +29,7 @@ class SenderService
         ];
     }
 
-    public function compose(array $fields)
+    public function compose(array $fields = [])
     {
         $this->data = array_merge($this->data, $fields);
 
