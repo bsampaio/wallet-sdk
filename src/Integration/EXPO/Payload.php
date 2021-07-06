@@ -21,9 +21,6 @@ class Payload
     public function toArray(): array
     {
         return $this->fields;
-        // return array_merge($this->fields, [
-            // 'sound' => $this->sound,
-            // 'priority' => $this->priority
-        // ]);
+
     }
 }
