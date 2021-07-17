@@ -44,7 +44,7 @@ abstract class DigitalAccount extends Model
     {
         $this->type = $type;
         $this->name = $name;
-        $this->$accountType;
+        $this->accountType = $accountType;
         $this->document = $document;
         $this->email = $email;
         $this->phone = $phone;
