@@ -35,7 +35,7 @@ class CompanyDigitalAccount extends DigitalAccount
      * @param LegalRepresentative $legalRepresentative
      * @param string $cnae
      * @param Carbon $establishmentDate
-     * @param array $companyMembers
+     * @param CompanyMember[] $companyMembers
      * @param bool $pep Tells if the person is public exposed
      * @param bool $emailOptOut True if Juno is not meant to send emails
      * @param bool $autoTransfer
@@ -61,5 +61,16 @@ class CompanyDigitalAccount extends DigitalAccount
     public function getEstablishmentDate()
     {
         return $this->establishmentDate->format('Y-m-d');
+    }
+
+    public function getCompanyMembers()
+    {
+        $companyMembers = [];
+
+        foreach($this->companyMembers as $companyMember) {
+            $companyMembers[] = $companyMember->toArray();
+        }
+
+        return $companyMembers;
     }
 }

@@ -15,9 +15,9 @@ class FinanceService
     const JUNO_ANTIFRAUD_TARIFF = 0.35;
     const JUNO_ANTICIPATION_TAX = 0.01;
 
-    public static function calculateInstallment(float $original, int $installments = 0): float
+    public static function calculateInstallment(float $original, int $installments = 1): float
     {
-        if(!$installments) {
+        if($installments <= 1)  {
             return $original;
         }
 
