@@ -29,4 +29,9 @@ class CompanyMember extends Model
         $this->document = $document;
         $this->birthDate = $birthDate;
     }
+
+    public function getBirthDate()
+    {
+        return $this->birthDate->format('Y-m-d');
+    }
 }

@@ -11,7 +11,7 @@ namespace Lifepet\Wallet\SDK\Domains;
 
 abstract class Model
 {
-    public function toArray($hideNull = false): array
+    public function toArray($hideNull = true): array
     {
         $reflection = new \ReflectionClass($this);
         $array = [];
@@ -27,8 +27,13 @@ abstract class Model
             } else {
                 $value = $this->$propertyName;
             }
-            if(!$hideNull) {
+
+            if(!is_null($value)) {
                 $array[$propertyName] = $value;
+            } else {
+                if(!$hideNull) {
+                   $array[$propertyName] = $value;
+                }
             }
         }
 
