@@ -40,9 +40,9 @@ class CompanyDigitalAccount extends DigitalAccount
      * @param bool $emailOptOut True if Juno is not meant to send emails
      * @param bool $autoTransfer
      */
-    public function __construct(string $type, string $name, string $document, string $email, string $phone, string $businessArea, string $linesOfBusiness, Address $address, BankAccount $bankAccount, float $monthlyIncomeOrRevenue, string $companyType, LegalRepresentative $legalRepresentative, string $cnae, Carbon $establishmentDate, array $companyMembers = [], $pep = false, bool $emailOptOut = true, bool $autoTransfer = false)
+    public function __construct(string $type,string $accountType, string $name, string $document, string $email, string $phone, string $businessArea, string $linesOfBusiness, Address $address, BankAccount $bankAccount, float $monthlyIncomeOrRevenue, string $companyType, LegalRepresentative $legalRepresentative, string $cnae, Carbon $establishmentDate, array $companyMembers = [], $pep = false, bool $emailOptOut = true, bool $autoTransfer = false)
     {
-        parent::__construct($type, $name, $document, $email, $phone, $businessArea, $linesOfBusiness, $address, $bankAccount,  $monthlyIncomeOrRevenue, $pep, $emailOptOut, $autoTransfer);
+        parent::__construct($type, $accountType, $name, $document, $email, $phone, $businessArea, $linesOfBusiness, $address, $bankAccount,  $monthlyIncomeOrRevenue, $pep, $emailOptOut, $autoTransfer);
         $this->companyType = $companyType;
         $this->legalRepresentative = $legalRepresentative;
         $this->cnae = $cnae;
