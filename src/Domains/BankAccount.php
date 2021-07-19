@@ -26,7 +26,7 @@ class BankAccount extends Model
      * @param $bankNumber
      * @param $agencyNumber
      * @param $accountNumber
-     * @param $accountComplementNumber
+     * @param string $accountComplementNumber Only for Caixa accounts
      * @param AccountHolder $accountHolder
      */
     public function __construct(string $bankNumber, string $agencyNumber, string $accountNumber, string $accountType, AccountHolder $accountHolder, string $accountComplementNumber = null)
