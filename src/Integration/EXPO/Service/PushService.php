@@ -27,12 +27,7 @@ class PushService
             'title' => $title,
             'body' => $body,
         ];
-        $validator = $this->validator->make($this->data, [
-            'to' => 'required',
-            'title' => 'required',
-            'body' => 'required'
-        ]);
-        $validator->validate();
+
     }
 
     public function compose(array $fields = [])
