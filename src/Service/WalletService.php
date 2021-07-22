@@ -50,6 +50,15 @@ class WalletService extends BasicService
         ]);
     }
 
+    public function checkEmail(string $email)
+    {
+        return $this->client->get('/email', [
+            'query' => [
+                'email' => $email
+            ]
+        ]);
+    }
+
     public function activeUsers()
     {
         return $this->client->get('/users/available', []);
