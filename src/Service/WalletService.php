@@ -64,7 +64,7 @@ class WalletService extends BasicService
         return $this->client->get('/users/available', []);
     }
 
-    public function userSearch(int $page = 1, string $term = null)
+    public function userSearch(int $page = 1, string $term = null, int $type = null)
     {
         $params = [
             'page' => $page
@@ -72,6 +72,10 @@ class WalletService extends BasicService
 
         if($term) {
             $params['term'] = $term;
+        }
+
+        if($type) {
+            $params['type'] = $type;
         }
 
         return $this->client->get('/users', [
