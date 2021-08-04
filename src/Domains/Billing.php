@@ -137,7 +137,7 @@ class Billing extends Model
         ];
     }
 
-    public function toArray(): array
+    public function toArray($hideNull = true): array
     {
         return [
             'name' => $this->name,
