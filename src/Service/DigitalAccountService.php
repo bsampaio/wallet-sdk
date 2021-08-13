@@ -133,7 +133,7 @@ class DigitalAccountService extends BasicService
      */
     public function getAvailableWithdrawBalance(string $walletKey)
     {
-        return $this->client->post('/digital-accounts/balance', [
+        return $this->client->get('/digital-accounts/balance', [
             'headers' => [
                 'Wallet-Key' => $walletKey
             ]
