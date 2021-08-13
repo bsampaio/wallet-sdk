@@ -13,6 +13,8 @@ use Carbon\Carbon;
 
 class Billing extends Model
 {
+    const DATE_FORMAT = 'Y-m-d';
+
     protected $name;
     protected $document;
     protected $email;
@@ -135,7 +137,7 @@ class Billing extends Model
         ];
     }
 
-    public function toArray(): array
+    public function toArray($hideNull = true): array
     {
         return [
             'name' => $this->name,

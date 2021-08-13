@@ -11,7 +11,7 @@ namespace Lifepet\Wallet\SDK\Domains;
 
 abstract class Model
 {
-    public function toArray(): array
+    public function toArray($hideNull = true): array
     {
         $reflection = new \ReflectionClass($this);
         $array = [];
@@ -20,10 +20,20 @@ abstract class Model
             $propertyName = $property->getName();
             $getterMethod = "get" . ucfirst($propertyName);
             $hasGetter = $reflection->hasMethod($getterMethod);
+
+            $value = null;
             if($hasGetter) {
-                $array[$propertyName] = $this->$getterMethod();
+                $value = $this->$getterMethod();
             } else {
-                $array[$propertyName] = $this->$propertyName;
+                $value = $this->$propertyName;
+            }
+
+            if(!is_null($value)) {
+                $array[$propertyName] = $value;
+            } else {
+                if(!$hideNull) {
+                   $array[$propertyName] = $value;
+                }
             }
         }
 

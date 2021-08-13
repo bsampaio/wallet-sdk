@@ -34,10 +34,11 @@ class WalletService extends BasicService
      * @param null $heimdall
      * @throws HeimdallKeyIsMissing
      */
-    public function __construct($heimdall = null)
+    public function __construct($heimdall = null, $origin = 'CUSTOMER')
     {
         parent::__construct();
         $this->client = Client::getInstance($heimdall);
+        $this->origin = $origin;
     }
 
     public function checkNickname($nickname)
@@ -49,9 +50,48 @@ class WalletService extends BasicService
         ]);
     }
 
+    public function checkEmail(string $email)
+    {
+        return $this->client->get('/email', [
+            'query' => [
+                'email' => $email
+            ]
+        ]);
+    }
+
     public function activeUsers()
     {
         return $this->client->get('/users/available', []);
+    }
+
+    public function userSearch(int $page = 1, string $term = null, int $type = null)
+    {
+        $params = [
+            'page' => $page
+        ];
+
+        if($term) {
+            $params['term'] = $term;
+        }
+
+        if($type) {
+            $params['type'] = $type;
+        }
+
+        return $this->client->get('/users', [
+            'json' => $params
+        ]);
+    }
+
+    public function userByNickname(string $nickname)
+    {
+        $params = [
+            'nickname' => $nickname
+        ];
+
+        return $this->client->get('/users/nickname', [
+            'query' => $params
+        ]);
     }
 
     /**
@@ -59,10 +99,11 @@ class WalletService extends BasicService
      * @param $email
      * @param $nickname
      * @param null $password
+     * @param int type
      * @return mixed|null
      * @throws ValidationException
      */
-    public function makeUserEnablingWallet($name, $email, $nickname, $password = null)
+    public function makeUserEnablingWallet($name, $email, $nickname, $password = null, int $type = 1)
     {
         $params = [
             'name'     => $name,
@@ -83,7 +124,7 @@ class WalletService extends BasicService
             $rules['password'] = 'required|string|min:6|confirmed';
         }
 
-        if($this->origin === self::ORIGIN__PARTNER) {
+        if($this->origin === self::ORIGIN__PARTNER || $type === self::TYPE__BUSINESS) {
             $params['type'] = self::TYPE__BUSINESS;
         }
 
@@ -148,7 +189,7 @@ class WalletService extends BasicService
      * @return mixed|null
      * @throws ValidationException
      */
-    public function transfer($key, $to, int $amount, string $reference = null, int $tax = null, int $cashback = null)
+    public function transfer($key, $to, int $amount, string $reference = null, int $tax = null, int $cashback = null, $description = null)
     {
         $params = [
             'transfer_to'     => $to,
@@ -164,13 +205,17 @@ class WalletService extends BasicService
         if($cashback) {
             $params['cashback'] = $cashback;
         }
+        if($description) {
+            $params['description'] = $description;
+        }
 
         $validator = $this->validator->make($params, [
             'transfer_to' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
-            'amount' => 'required|numeric|integer',
-            'reference' => 'sometimes|string',
-            'tax' => 'sometimes|numeric|integer',
-            'cashback' => 'sometimes|numeric|integer',
+            'amount'      => 'required|numeric|integer',
+            'reference'   => 'sometimes|string',
+            'tax'         => 'sometimes|numeric|integer',
+            'cashback'    => 'sometimes|numeric|integer',
+            'description' => 'sometimes|string'
         ]);
 
         $validator->validate();
@@ -193,21 +238,41 @@ class WalletService extends BasicService
      * @return mixed|null
      * @throws ValidationException
      */
-    public function makeCharge(string $key, string $from, int $amount, string $base_url = null)
+    public function makeCharge(string $key, int $amount, string $base_url = null, string $from = null, $overwritable = true, int $tax = null, int $cashback = null, $description = null, $customParams = [])
     {
         $params = [
-            'from'    => $from,
-            'amount'  => $amount
+            'amount'  => $amount,
+            'overwritable' => $overwritable,
         ];
 
         if($base_url) {
             $params['base_url'] = $base_url;
         }
+        if($tax) {
+            $params['tax'] = $tax;
+        }
+        if($cashback) {
+            $params['cashback'] = $cashback;
+        }
+        if($from) {
+            $params['from'] = $from;
+        }
+        if($description) {
+            $params['description'] = $description;
+        }
+        if($customParams) {
+            $params['params'] = $customParams;
+        }
 
         $validator = $this->validator->make($params, [
-            'from' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
             'amount' => 'required|numeric|integer',
-            'base_url' => 'sometimes|url'
+            'base_url' => 'sometimes|url',
+            'from' => 'sometimes|string|regex:/^[A-Za-z.-]+$/|max:255',
+            'overwritable' => 'sometimes|boolean',
+            'cashback' => 'sometimes|integer',
+            'tax' => 'sometimes|integer',
+            'description' => 'sometimes|string',
+            'params' => 'sometimes|array'
         ]);
 
         $validator->validate();
@@ -228,7 +293,10 @@ class WalletService extends BasicService
      */
     public function chargeInfo(string $key, string $reference)
     {
-        return $this->client->get("/charge/{$reference}", [
+        return $this->client->get("/charge", [
+            'query' => [
+                'reference' => $reference,
+            ],
             'headers' => [
                 'Wallet-Key' => $key
             ]
@@ -300,7 +368,7 @@ class WalletService extends BasicService
         ]);
     }
 
-    public function addCard(string $key, string $cardNumber, string $holderName, $securityCode, $expirationMonth, $expirationYear)
+    public function addCard(string $key, string $cardNumber, string $holderName, $securityCode, $expirationMonth, $expirationYear, string $cardNickname = null)
     {
         $params = [
             'card_number' => $cardNumber,
@@ -309,12 +377,16 @@ class WalletService extends BasicService
             'expiration_month' => $expirationMonth,
             'expiration_year' => $expirationYear
         ];
+        if($cardNickname) {
+            $params['card_nickname'] = $cardNickname;
+        }
 
         $validator = $this->validator->make($params, [
             'card_number' => 'required',
             'holder_name' => 'required',
             'security_code' => 'required',
             'expiration_year' => 'required',
+            'card_nickname' => 'sometimes|string',
         ]);
 
         $validator->validate();
@@ -486,8 +558,6 @@ class WalletService extends BasicService
 
             //Options
             'use_balance' => $useBalance,
-
-            'cashback'    => 'sometimes|numeric|min:0'
         ];
 
         if($reference) {
@@ -515,7 +585,7 @@ class WalletService extends BasicService
 
             //Amount composition
             'amount_to_bill_credit_card' => 'required|numeric|integer|gte:1',
-            'amount_to_bill_balance'     => 'sometimes|numeric|integer|gte:1',
+            'amount_to_bill_balance'     => 'sometimes|numeric|integer|gte:0',
             'amount_to_transfer'         => 'required|numeric|gte:1',
             'installments'               => 'required|numeric|max:24',
 
