@@ -99,6 +99,8 @@ class DigitalAccountService extends BasicService
      * Requires an withdraw of the total amount available and transferrable
      * in Juno Digital Account.
      *
+     * Requires an configured endpoint to notify success.
+     *
      * @param string $walletKey
      * @param int $amount
      * @return mixed|null
@@ -123,6 +125,8 @@ class DigitalAccountService extends BasicService
     /**
      * Retrieves the total amount available on Juno Account.
      * Should be considered for transfer requisitions.
+     *
+     * Requires an configured endpoint to notify success.
      *
      * @param string $walletKey
      * @return mixed|null
