@@ -6,16 +6,20 @@
  * Time: 00:21
  */
 
+
 namespace Lifepet\Wallet\SDK\Service;
 
 
 use Lifepet\Wallet\SDK\Client;
 use Lifepet\Wallet\SDK\Domains\CompanyDigitalAccount;
 use Lifepet\Wallet\SDK\Domains\DigitalAccount;
+use Lifepet\Wallet\SDK\Exception\AmountIsLowerThanMinimum;
 use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
 
 class DigitalAccountService extends BasicService
 {
+    const MINIMUM_WITHDRAW_AMOUNT = 1000;
+
     /**
      * @var Client
      */
@@ -87,6 +91,69 @@ class DigitalAccountService extends BasicService
         return $this->client->get('/digital-accounts/company-types', [
             'headers' => [
                 'Wallet-Key' => $walletKey
+            ]
+        ]);
+    }
+
+    /**
+     * Requires an withdraw of the total amount available and transferrable
+     * in Juno Digital Account.
+     *
+     * Requires an configured endpoint to notify success.
+     *
+     * @param string $walletKey
+     * @param int $amount
+     * @return mixed|null
+     * @throws AmountIsLowerThanMinimum
+     */
+    public function withdrawToDefaultBankAccount(string $walletKey, int $amount)
+    {
+        if($amount < self::MINIMUM_WITHDRAW_AMOUNT) {
+            throw new AmountIsLowerThanMinimum();
+        }
+
+        return $this->client->post('/digital-accounts/withdraw', [
+            'json' => [
+                'amount' => $amount
+            ],
+            'headers' => [
+                'Wallet-Key' => $walletKey
+            ]
+        ]);
+    }
+
+    /**
+     * Retrieves the total amount available on Juno Account.
+     * Should be considered for transfer requisitions.
+     *
+     * Requires an configured endpoint to notify success.
+     *
+     * @param string $walletKey
+     * @return mixed|null
+     */
+    public function getAvailableWithdrawBalance(string $walletKey)
+    {
+        return $this->client->get('/digital-accounts/balance', [
+            'headers' => [
+                'Wallet-Key' => $walletKey
+            ]
+        ]);
+    }
+
+    /**
+     * This method requires elevated privileges.
+     *
+     * @param string $transactionOrder
+     * @return mixed|null
+     */
+    public function cashbackPaymentAuthorization(string $transactionOrder)
+    {
+        return $this->client->post('/digital-accounts/p2p-transfer', [
+            'json' => [
+                'order' => $transactionOrder
+            ],
+            'headers' => [
+                'X-Authorization-Key' => env('WALLET_AUTHORIZATION_KEY')
             ]
         ]);
     }
