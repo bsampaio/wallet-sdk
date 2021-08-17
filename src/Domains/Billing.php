@@ -131,7 +131,7 @@ class Billing extends Model
     public function transformForPayment($delayed = false): array
     {
         return [
-            'email' => $this->getEmail(),
+            'email'   => $this->getEmail(),
             'address' => $this->address->toArray(),
             'delayed' => $delayed,
         ];
@@ -140,12 +140,12 @@ class Billing extends Model
     public function toArray($hideNull = true): array
     {
         return [
-            'name' => $this->name,
-            'document' => $this->document,
-            'email' => $this->email,
-            'phone' => $this->phone,
+            'name'      => $this->name,
+            'document'  => $this->document,
+            'email'     => $this->email,
+            'phone'     => $this->phone,
             'birthDate' => $this->birthDate,
-            'address' => $this->address->toArray(),
+            'address'   => $this->address->toArray(),
         ];
     }
 }
