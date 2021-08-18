@@ -5,7 +5,7 @@
     "require": {
         "ext-curl": "*",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "7.4.x-dev",
+        "guzzlehttp/guzzle": "7.3.0",
         "psy/psysh": "^0.10.4",
         "illuminate/filesystem": "^8.40",
         "illuminate/translation": "^8.40",
