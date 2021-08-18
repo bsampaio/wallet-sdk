@@ -112,7 +112,7 @@ class WalletService extends BasicService
         ];
         $rules = [
             'name' => 'required|string|max:255',
-            'nickname' => 'required|string|regex:/^[A-Za-z.-]+$/|max:255',
+            'nickname' => 'required|string|regex:/^[0-9A-Za-z.-]+$/|max:255',
             'email' => 'required|string|email|max:255',
         ];
 
