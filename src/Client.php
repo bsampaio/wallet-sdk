@@ -31,7 +31,7 @@ class Client {
     {
         $dotEnvBase = __DIR__ . "/../";
         if(file_exists($dotEnvBase . '.env')) {
-            $dotenv = Dotenv::createImmutable($dotEnvBase);
+            $dotenv = Dotenv::create($dotEnvBase);
             $dotenv->load();
         }
 

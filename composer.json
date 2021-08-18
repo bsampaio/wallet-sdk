@@ -5,11 +5,11 @@
     "require": {
         "ext-curl": "*",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "7.3.0",
+        "guzzlehttp/guzzle": "6.5.*",
         "psy/psysh": "^0.10.4",
-        "illuminate/filesystem": "^8.40",
-        "illuminate/translation": "^8.40",
-        "illuminate/validation": "^8.40",
+        "illuminate/filesystem": "^v5.8.36",
+        "illuminate/translation": "^v5.8.36",
+        "illuminate/validation": "^v5.8.36",
         "vlucas/phpdotenv": "^3.3.0"
     },
     "license": "proprietary",
