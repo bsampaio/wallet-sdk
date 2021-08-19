@@ -9,7 +9,7 @@
         "illuminate/filesystem": "^v8.40",
         "illuminate/translation": "^v8.40",
         "illuminate/validation": "^v8.40",
-        "vlucas/phpdotenv": "^3.3.0"
+        "vlucas/phpdotenv": "^5.3.0"
     },
     "license": "proprietary",
     "authors": [
