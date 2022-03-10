@@ -1,7 +1,7 @@
 <?php
 
 
-use Lifepet\Wallet\SDK\Service\WalletService;
+use Shots\Wallet\SDK\Service\WalletService;
 use PHPUnit\Framework\TestCase;
 
 class WalletServiceTest extends TestCase

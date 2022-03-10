@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Lifepet\Wallet\SDK\Domains;
+namespace Shots\Wallet\SDK\Domains;
 
 
 use App\Integrations\Juno\Contracts\Arrayable;

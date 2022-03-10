@@ -1,7 +1,7 @@
 <?php
 
 
-use Lifepet\Wallet\SDK\Service\WalletService;
+use Shots\Wallet\SDK\Service\WalletService;
 use PHPUnit\Framework\TestCase;
 
 class FinanceServiceTest extends TestCase
@@ -13,7 +13,7 @@ class FinanceServiceTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->service = new \Lifepet\Wallet\SDK\Service\FinanceService();
+        $this->service = new \Shots\Wallet\SDK\Service\FinanceService();
     }
 
     public function testCalculateInstallment()
@@ -21,7 +21,7 @@ class FinanceServiceTest extends TestCase
         $installments = 3;
         $original = 100;
         $adjusted = 108.42;
-        $result = \Lifepet\Wallet\SDK\Service\FinanceService::calculateInstallment($original, $installments);
+        $result = \Shots\Wallet\SDK\Service\FinanceService::calculateInstallment($original, $installments);
 
         $this->assertEquals($adjusted, $result);
     }

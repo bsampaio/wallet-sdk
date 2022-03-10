@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Lifepet\Wallet\SDK\Integration\EXPO\Service;
+namespace Shots\Wallet\SDK\Integration\EXPO\Service;
 
 
-use Lifepet\Wallet\SDK\Integration\EXPO\Client;
+use Shots\Wallet\SDK\Integration\EXPO\Client;
 
 class PushService
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Lifepet\Wallet\SDK;
+namespace Shots\Wallet\SDK;
 
 use Dotenv\Dotenv;
 use GuzzleHttp\Exception\GuzzleException;
-use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
+use Shots\Wallet\SDK\Exception\HeimdallKeyIsMissing;
 
 class Client {
 
-    const BASE_URI = 'https://wallet.lifepet.com.br/api';
+    const BASE_URI = 'https://wallet.shots.com.br/api';
     //const BASE_URI = 'http://localhost:8000/api';
 
     /**
@@ -109,7 +109,7 @@ class Client {
 
     private function setUserAgent()
     {
-        $this->userAgent = 'lifepet-wallet-sdk';
+        $this->userAgent = 'shots-wallet-sdk';
         $appName = env('APP_NAME', null);
         if ($appName) {
             $appName = str_replace(' ', '-', $appName);

@@ -1,20 +1,20 @@
 <?php
 
 
-use Lifepet\Wallet\SDK\Service\WalletService;
+use Shots\Wallet\SDK\Service\WalletService;
 use PHPUnit\Framework\TestCase;
 
 class RDStationTest extends TestCase
 {
     /**
-     * @var \Lifepet\Wallet\SDK\Integration\RD\Service\SenderService $service
+     * @var \Shots\Wallet\SDK\Integration\RD\Service\SenderService $service
      */
     private $service;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->service = new Lifepet\Wallet\SDK\Integration\RD\Service\SenderService('sdk__test_trigger', "breno.grillo@lifepet.com.br");
+        $this->service = new Shots\Wallet\SDK\Integration\RD\Service\SenderService('sdk__test_trigger', "breno.grillo@shots.com.br");
     }
 
     public function testSendTrigger()

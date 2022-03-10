@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Lifepet\Wallet\SDK\Service;
+namespace Shots\Wallet\SDK\Service;
 
 
 use Illuminate\Filesystem\Filesystem;

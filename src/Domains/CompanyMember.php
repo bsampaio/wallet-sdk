@@ -6,7 +6,7 @@
  * Time: 16:48
  */
 
-namespace Lifepet\Wallet\SDK\Domains;
+namespace Shots\Wallet\SDK\Domains;
 
 
 use Carbon\Carbon;

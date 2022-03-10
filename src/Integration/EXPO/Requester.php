@@ -1,6 +1,6 @@
 <?php
 
-namespace Lifepet\Wallet\SDK\Integration\EXPO;
+namespace Shots\Wallet\SDK\Integration\EXPO;
 
 
 class Requester

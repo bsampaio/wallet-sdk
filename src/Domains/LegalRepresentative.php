@@ -6,7 +6,7 @@
  * Time: 16:57
  */
 
-namespace Lifepet\Wallet\SDK\Domains;
+namespace Shots\Wallet\SDK\Domains;
 
 
 class LegalRepresentative extends Model

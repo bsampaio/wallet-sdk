@@ -1,5 +1,5 @@
 {
-    "name": "lifepetwebteam/lifepet-wallet-sdk",
+    "name": "shotswebteam/shots-wallet-sdk",
     "description": "Software develpment kit to communicate with wallet service",
     "type": "library",
     "require": {
@@ -26,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Lifepet\\Wallet\\SDK\\": "src"
+            "Shots\\Wallet\\SDK\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Lifepet\\Wallet\\Tests\\": "tests"
+            "Shots\\Wallet\\Tests\\": "tests"
         }
     }
 }

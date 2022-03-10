@@ -6,7 +6,7 @@
  * Time: 16:34
  */
 
-namespace Lifepet\Wallet\SDK\Service;
+namespace Shots\Wallet\SDK\Service;
 
 
 class FinanceService

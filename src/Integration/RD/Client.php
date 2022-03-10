@@ -6,7 +6,7 @@
  * Time: 17:00
  */
 
-namespace Lifepet\Wallet\SDK\Integration\RD;
+namespace Shots\Wallet\SDK\Integration\RD;
 
 
 class Client

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Lifepet\Wallet\SDK\Exception;
+namespace Shots\Wallet\SDK\Exception;
 
 
 use Throwable;

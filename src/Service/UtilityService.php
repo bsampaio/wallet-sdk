@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Lifepet\Wallet\SDK\Service;
+namespace Shots\Wallet\SDK\Service;
 
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Lifepet\Wallet\SDK\Client;
-use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
+use Shots\Wallet\SDK\Client;
+use Shots\Wallet\SDK\Exception\HeimdallKeyIsMissing;
 
 class UtilityService extends BasicService
 {

@@ -6,7 +6,7 @@
  * Time: 16:29
  */
 
-namespace Lifepet\Wallet\SDK\Domains;
+namespace Shots\Wallet\SDK\Domains;
 
 
 abstract class DigitalAccount extends Model

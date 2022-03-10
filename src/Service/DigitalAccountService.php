@@ -7,14 +7,14 @@
  */
 
 
-namespace Lifepet\Wallet\SDK\Service;
+namespace Shots\Wallet\SDK\Service;
 
 
-use Lifepet\Wallet\SDK\Client;
-use Lifepet\Wallet\SDK\Domains\CompanyDigitalAccount;
-use Lifepet\Wallet\SDK\Domains\DigitalAccount;
-use Lifepet\Wallet\SDK\Exception\AmountIsLowerThanMinimum;
-use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
+use Shots\Wallet\SDK\Client;
+use Shots\Wallet\SDK\Domains\CompanyDigitalAccount;
+use Shots\Wallet\SDK\Domains\DigitalAccount;
+use Shots\Wallet\SDK\Exception\AmountIsLowerThanMinimum;
+use Shots\Wallet\SDK\Exception\HeimdallKeyIsMissing;
 
 class DigitalAccountService extends BasicService
 {

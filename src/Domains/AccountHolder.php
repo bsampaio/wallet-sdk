@@ -6,7 +6,7 @@
  * Time: 16:43
  */
 
-namespace Lifepet\Wallet\SDK\Domains;
+namespace Shots\Wallet\SDK\Domains;
 
 
 class AccountHolder extends Model

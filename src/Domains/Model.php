@@ -6,7 +6,7 @@
  * Time: 16:35
  */
 
-namespace Lifepet\Wallet\SDK\Domains;
+namespace Shots\Wallet\SDK\Domains;
 
 
 abstract class Model

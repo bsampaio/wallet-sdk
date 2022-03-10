@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Lifepet\Wallet\SDK\Service;
+namespace Shots\Wallet\SDK\Service;
 
 
 use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
-use Lifepet\Wallet\SDK\Client;
-use Lifepet\Wallet\SDK\Exception\HeimdallKeyIsMissing;
+use Shots\Wallet\SDK\Client;
+use Shots\Wallet\SDK\Exception\HeimdallKeyIsMissing;
 
 class TransactionService extends BasicService
 {

@@ -6,10 +6,10 @@
  * Time: 17:11
  */
 
-namespace Lifepet\Wallet\SDK\Integration\RD\Service;
+namespace Shots\Wallet\SDK\Integration\RD\Service;
 
 
-use Lifepet\Wallet\SDK\Integration\RD\Client;
+use Shots\Wallet\SDK\Integration\RD\Client;
 
 class SenderService
 {

@@ -6,7 +6,7 @@
  * Time: 16:33
  */
 
-namespace Lifepet\Wallet\SDK\Domains;
+namespace Shots\Wallet\SDK\Domains;
 
 
 class PersonalDigitalAccount extends DigitalAccount
